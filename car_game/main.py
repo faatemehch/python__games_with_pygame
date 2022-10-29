@@ -8,17 +8,17 @@ pygame.init()
 WIDTH, HEIGHT = 600, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 # background
-BG = pygame.image.load("carGame/img/background.jpeg")
+BG = pygame.image.load("car_game/img/background.jpeg")
 BG = pygame.transform.scale(BG, (WIDTH, HEIGHT))
 # background sound
-mixer.music.load("carGame/sounds/backgroundSound.wav")
+mixer.music.load("car_game/sounds/backgroundSound.wav")
 mixer.music.play(-1)  # -1 -> plays on loop
 # Title and Icon
 pygame.display.set_caption("Pass Through Street")
-icon = pygame.image.load("carGame/img/icon.png")
+icon = pygame.image.load("car_game/img/icon.png")
 pygame.display.set_icon(icon)
 # ---------------- Player ------------------
-playerImg = pygame.image.load("carGame/img/pedestrian.png")
+playerImg = pygame.image.load("car_game/img/pedestrian.png")
 # Set the size for the image
 DEFAULT_IMAGE_SIZE = (64, 64)
 # Scale the image to needed size
@@ -29,11 +29,11 @@ playerXChange, playerYChange = 0, 0
 # ---------------- Cars ---------------------
 # load , resize, rotate images
 car1 = pygame.transform.scale(
-    pygame.image.load("carGame/img/car1.png"), DEFAULT_IMAGE_SIZE)
+    pygame.image.load("car_game/img/car1.png"), DEFAULT_IMAGE_SIZE)
 car2 = pygame.transform.scale(
-    pygame.image.load("carGame/img/car2.png"), DEFAULT_IMAGE_SIZE)
+    pygame.image.load("car_game/img/car2.png"), DEFAULT_IMAGE_SIZE)
 car3 = pygame.transform.scale(
-    pygame.image.load("carGame/img/car3.png"), DEFAULT_IMAGE_SIZE)
+    pygame.image.load("car_game/img/car3.png"), DEFAULT_IMAGE_SIZE)
 # from up to down cars
 list_of_cars = [car1, car2, car3]
 # from_up_cars = [car1, pygame.transform.rotate(car2, 180), car3]
@@ -69,24 +69,24 @@ class Player:
                          (self.x, self.y + playerImg.get_height() + 10, playerImg.get_width()*(self.health/self.MAX_HEALTH), 10))
 
     def show_live(self, window):
-        live_font = pygame.font.Font("carGame/fonts/Weird Garden.ttf", 32)
+        live_font = pygame.font.Font("car_game/fonts/Weird Garden.ttf", 32)
         live_font = live_font.render(
             f"Live: {self.health // 10}", 1,  (255, 255, 255))
         window.blit(live_font, (15, 15))
 
     def show_score(self, window):
-        score_font = pygame.font.Font("carGame/fonts/Weird Garden.ttf", 32)
+        score_font = pygame.font.Font("car_game/fonts/Weird Garden.ttf", 32)
         score_font = score_font.render(
             f"Score: {self.score}", 1,  (255, 255, 255))
         window.blit(score_font, (WIDTH - score_font.get_width() - 15, 15))
 
     def gameover(self, window):
-        gameover_font = pygame.font.Font("carGame/fonts/Funroot-Regular.ttf", 64)
+        gameover_font = pygame.font.Font("car_game/fonts/Funroot-Regular.ttf", 64)
         gameover_font = gameover_font.render(f"Game Over", 1,  (0, 255, 0))
         window.blit(gameover_font, (WIDTH / 2 - gameover_font.get_width() /
                     2, HEIGHT/2 - gameover_font.get_height()/2))
         self.health = 0
-        gameover_sound = mixer.Sound("carGame/sounds/gameOver.wav")
+        gameover_sound = mixer.Sound("car_game/sounds/gameOver.wav")
         gameover_sound.play()
 
 class Car:
@@ -107,7 +107,7 @@ def isCollision(obj1, obj2):
     offset_x = obj2.x - obj1.x
     offset_y = obj2.y - obj1.y
     if obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) != None:
-        collide_sound = mixer.Sound("carGame/sounds/collide.wav")
+        collide_sound = mixer.Sound("car_game/sounds/collide.wav")
         collide_sound.play()
         return True
     else:
@@ -178,7 +178,7 @@ while running:
     if player.x < 0:
         player.x = WIDTH
         player.score += 1
-    elif player.x > WIDTH:
+    elif player.x > WIDTH - player.img.get_width():
         player.x = WIDTH - player.img.get_width()
     if player.y < 0:
         player.y = HEIGHT
