@@ -99,35 +99,40 @@ while running:
             if event.key == pygame.K_a or event.key == pygame.K_d: # if release a or d button 
                 changes = 0 # to stop the player(rabbit) at current position
     playerX = playerX + changes # Change x to move the player
+    if playerX <=0:
+        playerX = 0
+    elif playerX >= WIDTH - playerImg.get_width():
+        playerX = WIDTH - playerImg.get_width()
     player(playerX, playerY)
     # Carrot
-    for i in range(carrot_number):
-        draw_game_objects(carrotX[i], carrotY[i], carrots_list[i])
-        carrotY[i] += 2
-        if isCollision(playerX, playerY, carrotX[i], carrotY[i], playerImg, carrots_list[i]):
-            score += carrot_velocity
-            if score % 10 == 0:
-                level += 1
-                bomb_velocity += 1
-                carrot_velocity += 1
-            carrotY[i] = randint(-1000, -100)
-            carrotX[i] = randint(40, WIDTH-40)
-        if carrotY[i] >= HEIGHT:
-            carrotY[i] = randint(-1000, -100)
-            carrotX[i] = randint(40, WIDTH-40)
-    # Bomb
-    for i in range(bomb_number):
-        draw_game_objects(bombX[i], bombY[i], bomb_list[i])
-        bombY[i] += bomb_velocity
-        if isCollision(playerX, playerY, bombX[i], bombY[i], playerImg, bomb_list[i]):
-            if score <= 0:
-                lost = True
-            else:
-                score -= 1
-            bombY[i] = randint(-1000, -100)
-            bombX[i] = randint(40, WIDTH-40)
-        if bombY[i] >= HEIGHT:
-            bombY[i] = randint(-1000, -100)
-            bombX[i] = randint(40, WIDTH-40)
-    
+    if not lost:
+        for i in range(carrot_number):
+            draw_game_objects(carrotX[i], carrotY[i], carrots_list[i])
+            carrotY[i] += 2
+            if isCollision(playerX, playerY, carrotX[i], carrotY[i], playerImg, carrots_list[i]):
+                score += carrot_velocity
+                if score % 10 == 0:
+                    level += 1
+                    bomb_velocity += 1
+                    carrot_velocity += 1
+                carrotY[i] = randint(-1000, -100)
+                carrotX[i] = randint(40, WIDTH-40)
+            if carrotY[i] >= HEIGHT:
+                carrotY[i] = randint(-1000, -100)
+                carrotX[i] = randint(40, WIDTH-40)
+        # Bomb
+        for i in range(bomb_number):
+            draw_game_objects(bombX[i], bombY[i], bomb_list[i])
+            bombY[i] += bomb_velocity
+            if isCollision(playerX, playerY, bombX[i], bombY[i], playerImg, bomb_list[i]):
+                if score <= 0:
+                    lost = True
+                else:
+                    score -= 1
+                bombY[i] = randint(-1000, -100)
+                bombX[i] = randint(40, WIDTH-40)
+            if bombY[i] >= HEIGHT:
+                bombY[i] = randint(-1000, -100)
+                bombX[i] = randint(40, WIDTH-40)
+        
     pygame.display.update()
